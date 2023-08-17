@@ -1,0 +1,20 @@
+.mapFunction{
+    flex-basis: 50%;
+    display: block;
+}
+.zoomButton{
+    padding: 20px;
+    z-index: 2000000;
+}
+.mapContainer{
+    margin-left: 10px;
+    position: relative;
+    aspect-ratio: 1.9;
+    border: solid;
+    overflow: hidden;
+    background-color: #ffffff7f;
+    background-color: #205295;
+}
+.mapContainer svg{
+    padding-top: 3rem;
+}
