@@ -8,6 +8,9 @@ const Home = () => {
   return (
     <>
       <div className={styles.homeDiv}>
+        <h1>This project is <label style={{color: 'red'}}>IN-PROGRESS</label> and gets updated almost daily </h1>
+        <h2 style={{color: 'green'}}> Last Update: 17 Aug 2023</h2>
+        
         <MapContainer/>
         <div className={styles.chartContainer}>
           <ChartDisplay/>

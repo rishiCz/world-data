@@ -41,7 +41,7 @@ const ChartDisplay = () => {
         })}
       dispatch(setValues({ xValues, yValues }));
     });
-  }, [activeCountry]);
+  }, [activeCountry,dispatch]);
   const data = {
     options: {
       chart: {
