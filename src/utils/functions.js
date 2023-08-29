@@ -2,13 +2,13 @@ import {zoom,SetMapProperties} from './mapFunctions'
 import axios from 'axios'
 import Jparse from 'papaparse'
 import { country } from '../store/slices/countrySlice'
-// import { getJsonFromCsv } from "./csvFunctions"
 export const print=(text)=>{
     console.log(text)
 }
 const SetMapProperty = (dispatch)=> SetMapProperties(dispatch)
 const zoomIn =() => zoom(true)
 const zoomOut =() => zoom(false)
+
 const getCountryFromName =async(name)=>{
     try {
         const apiUrl = `https://restcountries.com/v3.1/name/${name}?fullText=true`
@@ -35,16 +35,16 @@ const getCountryFromName =async(name)=>{
       }
     
 }
-const getJsonFromCsv = async (csvData) => {
-    try{
-    const res = await (fetch(csvData))
-    const resText = await res.text()
-    const data= Jparse.parse(resText,{header: true}).data
-    return data}
-    catch(e){
-        console.log(e)
-    }
+const getDataFromCountry = async (countryCode) =>{
+  let data = null
+  try{
+      const res = await(axios.get(`https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GDP.MKTP.CD?format=json`))
+      data =res.data[1]
+  }
+  catch(e){
+      console.log(e)
+  }
+  return data
 }
 
-
-export{SetMapProperty,zoomIn,zoomOut,getCountryFromName,getJsonFromCsv}
+export{SetMapProperty,zoomIn,zoomOut,getCountryFromName,getDataFromCountry}

@@ -1,15 +1,14 @@
-import { getJsonFromCsv } from "../../utils/functions";
+import {getDataFromCountry } from "../../utils/functions";
 import { useDispatch } from "react-redux";
 import { setValues } from "../../store/slices/chartSlice";
 import { useSelector } from "react-redux";
-import React, { useEffect,useState } from "react";
-import csvData from "../../assets/gdpCountry.csv";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import Flag from "../flag";
-import styles from './styles.module.css'
+import styles from "./styles.module.css";
 
 const ChartDisplay = () => {
-  const [isData, setIsData] = useState(true)
+  const [isData, setIsData] = useState(true);
   const dispatch = useDispatch();
   const countryState = useSelector((state) => state.country);
   const chartState = useSelector((state) => state.chart);
@@ -18,30 +17,26 @@ const ChartDisplay = () => {
   const yData = chartState.yValues;
 
   useEffect(() => {
-    getJsonFromCsv(csvData).then((result) => {
+    getDataFromCountry(activeCountry).then((result) => {
       let xValues = [];
       let yValues = [];
       const organizedData = {};
-      result.forEach((entry) => {
-        const { Code, Year, GDP } = entry;
-        if (!organizedData[Code]) {
-          organizedData[Code] = [];
+      if (result) {
+        result.reverse().forEach((entry) => {
+          setIsData(true);
+          if(entry.value){
+          xValues.push(entry.date);
+          yValues.push((entry.value / 1000000000).toFixed(2));
         }
-        organizedData[Code].push({ year: Year, gdp: parseFloat(GDP) });
-      });
-      if (organizedData[activeCountry] === undefined) {
-        setIsData(false)
-        xValues.push("No Data Availale");
-        yValues.push("No Data Availale");
-      } else{
-        setIsData(true)
-        organizedData[activeCountry].forEach((gdpObj) => {
-          xValues.push(gdpObj.year);
-          yValues.push(gdpObj.gdp);
-        })}
+        });
+      } else {
+        setIsData(false);
+        xValues.push("noData");
+        yValues.push("noData");
+      }
       dispatch(setValues({ xValues, yValues }));
     });
-  }, [activeCountry,dispatch]);
+  }, [activeCountry, dispatch]);
   const data = {
     options: {
       chart: {
@@ -65,21 +60,24 @@ const ChartDisplay = () => {
 
   return (
     <>
-    <div className={styles.flagHolder}>
-        <Flag/>
-        <label>{countryState.countryData.name?countryState.countryData.name.common:'' }</label>
-    </div>
-    { isData ? 
-      <Chart
-        options={data.options}
-        series={data.series}
-        type="area"
-        width="99%"
-      />
-      :
-      <h1>No Data Availale</h1>
-      
-      }
+      <div className={styles.flagHolder}>
+        <Flag />
+        <label>
+          {countryState.countryData.name
+            ? countryState.countryData.name.common
+            : ""}
+        </label>
+      </div>
+      {isData ? (
+        <Chart
+          options={data.options}
+          series={data.series}
+          type="area"
+          width="99%"
+        />
+      ) : (
+        <h1>No Data Availale</h1>
+      )}
     </>
   );
 };
