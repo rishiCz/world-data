@@ -35,7 +35,7 @@ const onDrag = () => {
     dragStartY = e.clientY;
   });
 
-  mapContainer.addEventListener("mousemove", (e) => {
+  const onMove = (e)=>{
     if (!isDragging) return;
 
     const deltaX = e.clientX - dragStartX;
@@ -58,11 +58,16 @@ const onDrag = () => {
     dragStartY = e.clientY;
 
     updateTransform();
+  }
+  document.addEventListener("mousemove", (e) => {
+    e.preventDefault()
+    onMove(e)
   });
 
-  mapContainer.addEventListener("mouseup", () => {
+  document.addEventListener("mouseup", () => {
     isDragging = false;
     map.style.cursor = "grab";
+    document.removeEventListener("mousemove",onMove)
   });
 
   function updateTransform() {
