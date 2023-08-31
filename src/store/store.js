@@ -1,11 +1,9 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import countryReducer from './slices/countrySlice';
-import chartReducer from './slices/chartSlice';
 
 export const store = configureStore({
   reducer: {
     country: countryReducer,
-    chart: chartReducer
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,

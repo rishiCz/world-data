@@ -54,7 +54,11 @@ const getLatestGDP=async(listCodes)=>{
       const latestGdp = res.data[1][0]
       if(latestGdp.value){
         const gdp = (latestGdp.value/1000000000).toFixed(2)
-        data.name.push(latestGdp.country.value + ' :  '+ gdp)
+        data.name.push(`
+        <div class='pieLabel'>
+          <label> ${latestGdp.country.value} </label>
+          <label> ${gdp} B </label>
+        </div>`)
         data.gdp.push(parseFloat(gdp))
         console.log()
       }

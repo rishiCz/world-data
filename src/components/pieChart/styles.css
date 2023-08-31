@@ -1,0 +1,60 @@
+.pieChart .apexcharts-canvas{
+    background-color: rgb(255, 255, 255);
+    min-height: 200% ;
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.apexcharts-tooltip-text-y-value{
+    display: none;
+    scale: 0;
+}
+.apexcharts-tooltip-text-y-label{
+    content: "";
+}
+.pieChart .apexcharts-canvas > svg{
+}
+.pieChart .apexcharts-graphical{
+}
+.pieChart .apexcharts-legend-series{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border: 0.1px solid #d1d1d1;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 8px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    transition: all 200ms ease;
+}
+.pieChart .apexcharts-legend-series:hover{
+    scale: 1.01;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+.pieChart .apexcharts-legend-marker{
+    min-height: 20px;
+    min-width: 20px;
+}
+.pieChart .apexcharts-legend-text{
+    display: flex;
+    max-width: 200px;
+    min-width: 200px;
+}
+.pieChart .pieLabel{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.pieChart label{
+    margin-left: 2px;
+    text-align: start;
+    color: inherit;
+    white-space: normal;
+    text-overflow: ellipsis;
+    max-width: 100px;
+    font-size: 1.3em;
+}
+.pieChart label:nth-child(2){
+    white-space: nowrap;
+}
