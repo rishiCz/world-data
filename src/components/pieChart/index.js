@@ -15,7 +15,6 @@ const PieChart = () => {
     if (countryData.borders)
       getLatestGDP([countryData.cca3, ...countryData.borders]).then(
         (result) => {
-          console.log(result)
           if (result){
             setIsData(true)
             setValues({ xValues: result.name, yValues: result.gdp })

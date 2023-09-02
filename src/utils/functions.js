@@ -1,10 +1,5 @@
 import {zoom,SetMapProperties} from './mapFunctions'
 import axios from 'axios'
-import Jparse from 'papaparse'
-import { country } from '../store/slices/countrySlice'
-export const print=(text)=>{
-    console.log(text)
-}
 const SetMapProperty = (dispatch)=> SetMapProperties(dispatch)
 const zoomIn =() => zoom(true)
 const zoomOut =() => zoom(false)
@@ -44,31 +39,45 @@ const getDataFromCountry = async (countryCode) =>{
   }
   return data
 }
-const getLatestGDP=async(listCodes)=>{
-  let data = {name:[],gdp:[]}
+const getLatestGDP = async (listCodes) => {
+  if (!listCodes) {
+    return { name: [], gdp: [] };
+  }
 
-  if(listCodes)
-  for (let countryCode of listCodes){
-    try{
-      const res = await(axios.get(`https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GDP.MKTP.CD?format=json`))
-      const latestGdp = res.data[1][0]
-      if(latestGdp.value){
-        const gdp = (latestGdp.value/1000000000).toFixed(2)
-        data.name.push(`
-        <div class='pieLabel'>
-          <label> ${latestGdp.country.value} </label>
-          <label> ${gdp} B </label>
-        </div>`)
-        data.gdp.push(parseFloat(gdp))
-        console.log()
+  const requests = listCodes.map(async (countryCode) => {
+    try {
+      const res = await axios.get(`https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GDP.MKTP.CD?format=json`);
+      const latestGdp = res.data[1][0];
+
+      if (latestGdp.value) {
+        const gdp = (latestGdp.value / 1000000000).toFixed(2);
+        return {
+          name: `
+            <div class='pieLabel'>
+              <label> ${latestGdp.country.value} </label>
+              <label> ${gdp} B </label>
+            </div>`,
+          gdp: parseFloat(gdp)
+        };
       }
-  }
-  catch(e){
-      console.log(e)
-  }
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  });
+
+  const results = await Promise.all(requests);
+  const validResults = results.filter(result => result != null);
+  const data = {
+    name: validResults.map(result => result.name),
+    gdp: validResults.map(result => result.gdp)
   };
-  
-  return data
-}
+
+  return data;
+};
+
+
+
+
 
 export{SetMapProperty,zoomIn,zoomOut,getCountryFromName,getDataFromCountry,getLatestGDP}

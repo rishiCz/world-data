@@ -5,10 +5,11 @@ const initialState = {
   hoverCountry: "IND",
   countryData: {
     name: { common: "India" },
-    cca3: 'IND',
+    cca3: "IND",
     flags: { png: "https://flagcdn.com/w320/in.png" },
-    borders: ["BGD", "BTN", "MMR", "CHN", "NPL", "PAK"]
+    borders: ["BGD", "BTN", "MMR", "CHN", "NPL", "PAK"],
   },
+  gdp: null,
 };
 export const country = createSlice({
   name: "country",
@@ -21,9 +22,12 @@ export const country = createSlice({
     setHoverCountry: (state, action) => {
       state.hoverCountry = action.payload;
     },
+    setGdp: (state, action) => {
+      state.gdp = action.payload;
+    },
   },
 });
 
-export const { setActiveCountry, setHoverCountry } = country.actions;
+export const { setActiveCountry, setHoverCountry, setGdp } = country.actions;
 
 export default country.reducer;

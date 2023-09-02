@@ -1,16 +1,30 @@
-.homeDiv{
-    
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+* {
+  font-family: "Inder", sans-serif;
+  font-family: "K2D", sans-serif;
 }
-.chartContainer{
-    flex-basis: 48%;
-    aspect-ratio: 1.3;
+h1{
+    color: #616161;
+    font-size: 2.6em;
+    margin : 10px;
+    margin-left: 20px;
+    font-weight: 600;
+    letter-spacing: 2px;
 }
-.pieContainer{
-    flex-basis: 100%;
+.upper {
+  display: flex;
+  justify-content: space-between;
+  background-color: #1f487e5e;
+  padding: 10px;
 }
-.pieContainer div{
-    margin: auto;
+.chartContainer {
+  border-radius: 20px;
+  background-color: #ffffff;
+  flex-basis: 48%;
+  overflow: hidden;
+}
+.pieContainer {
+  flex-basis: 100%;
+}
+.pieContainer div {
+  margin: auto;
 }

@@ -11,7 +11,7 @@ const hoverCancelColor = "#0A2647";
 const hoverStrokeColor = "#ffffff";
 const hoverCancelStrokeColor = "#89add8";
 const hoverStrokeWidth = 0.5;
-const hoverCancelStrokeWidth = 0.1;
+const hoverCancelStrokeWidth = 0.2;
 let map = null;
 
 const onDrag = () => {
@@ -135,7 +135,6 @@ const getCca3FromName =async(name)=>{
       const response = await axios.get(apiUrl);
       return response.data[0];
     } catch (error) {
-      console.error("Error fetching data:", error);
       try{
           const apiUrl = `https://restcountries.com/v3.1/name/${name}`;
           const response = await axios.get(apiUrl);
