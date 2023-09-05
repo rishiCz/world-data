@@ -6,13 +6,19 @@
 .upper{
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 .upper label{
     font-size: 1.5em;
-    
     font-weight: 700;
     color: #414141;
 }
+.left{
+    display: flex;
+    align-items: center;
+}
+
 .zoomContainer{
     position: absolute;
     right: 10px;
@@ -43,8 +49,8 @@
     aspect-ratio: 1.9;
     border-radius: 20px;
     overflow: hidden;
-    background-color: #ffffff7f;
-    background-color: #3d5b82;
+    border: 5px solid #ffffff;
+    background-color: #6682a7b9;
 }
 .mapContainer svg{
     padding-top: 3rem;

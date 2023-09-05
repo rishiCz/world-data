@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 // import { useDispatch } from "react-redux";
-import axios from 'axios'
+import axios from "axios";
 import {
   setActiveCountry,
   // setHoverCountry,
@@ -35,7 +35,7 @@ const onDrag = () => {
     dragStartY = e.clientY;
   });
 
-  const onMove = (e)=>{
+  const onMove = (e) => {
     if (!isDragging) return;
 
     const deltaX = e.clientX - dragStartX;
@@ -58,16 +58,16 @@ const onDrag = () => {
     dragStartY = e.clientY;
 
     updateTransform();
-  }
+  };
   document.addEventListener("mousemove", (e) => {
-    e.preventDefault()
-    onMove(e)
+    e.preventDefault();
+    onMove(e);
   });
 
   document.addEventListener("mouseup", () => {
     isDragging = false;
     map.style.cursor = "grab";
-    document.removeEventListener("mousemove",onMove)
+    document.removeEventListener("mousemove", onMove);
   });
 
   function updateTransform() {
@@ -76,7 +76,7 @@ const onDrag = () => {
 };
 const UpdateMap = () => {
   map = document.querySelector("#allSvg");
-  map.style.scale++
+  map.style.scale++;
 };
 const onHover = () => {
   map.addEventListener("mouseover", function (element) {
@@ -98,28 +98,31 @@ const onHover = () => {
     });
   });
 };
+const setCountryFromName = async (name,dispatch)=>{
+  const data = await getCca3FromName(name);
+      dispatch(setActiveCountry(data));
+}
 const Onclick = (dispatch) => {
-  map.onclick = async(element) => {
+  map.onclick = (element) => {
     element.stopPropagation();
-    if(element.target.className.baseVal === "allPaths" ){
-      const data = await getCca3FromName(element.target.id)
-      dispatch(setActiveCountry(data))
+    if (element.target.className.baseVal === "allPaths") {
+      setCountryFromName(element.target.id,dispatch)
     }
   };
 };
 const zoom = (isZoomIn) => {
-  let scale= map.style.scale
-  if (isZoomIn && map.style.scale < 20){
-  for (let i = 0; i < scale; i++) {
-    map.style.scale++;
+  let scale = map.style.scale;
+  if (isZoomIn && map.style.scale < 20) {
+    for (let i = 0; i < scale; i++) {
+      map.style.scale++;
+    }
   }
-}
-   
-  if (!isZoomIn && map.style.scale > 1){
-  for (let i = Math.sqrt(scale); i >= 1; i--) {
-    map.style.scale--;
+
+  if (!isZoomIn && map.style.scale > 1) {
+    for (let i = Math.sqrt(scale); i >= 1; i--) {
+      map.style.scale--;
+    }
   }
-}
 };
 const SetMapProperties = (dispatch) => {
   useEffect(() => {
@@ -127,25 +130,32 @@ const SetMapProperties = (dispatch) => {
     onDrag();
     Onclick(dispatch);
     onHover();
-  },[]);
+  }, []);
 };
-const getCca3FromName =async(name)=>{
+const getCca3FromName = async (name) => {
   try {
-      const apiUrl = `https://restcountries.com/v3.1/name/${name}?fullText=true`;
+    const apiUrl = `https://restcountries.com/v3.1/name/${name}?fullText=true`;
+    const response = await axios.get(apiUrl);
+    return response.data[0];
+  } catch (error) {
+    try {
+      const apiUrl = `https://restcountries.com/v3.1/name/${name}`;
       const response = await axios.get(apiUrl);
       return response.data[0];
-    } catch (error) {
-      try{
-          const apiUrl = `https://restcountries.com/v3.1/name/${name}`;
-          const response = await axios.get(apiUrl);
-          return response.data[0];
-      }
-      catch(e){
+    } catch (e) {}
+  }
+};
 
-      }
+const getCountryList = () => {
+  const countryList = [];
+  const countryMap = {};
+  document.querySelectorAll(`.allPaths`).forEach((country) => {
+    if (!countryMap[country.id]) {
+      countryMap[country.id] = true;
+      countryList.push(country.id);
     }
-  
-}
+  });
+  return countryList
+};
 
-
-export { zoom, SetMapProperties };
+export { zoom, SetMapProperties, getCountryList, setCountryFromName };

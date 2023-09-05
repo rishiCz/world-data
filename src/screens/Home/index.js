@@ -2,8 +2,10 @@ import MapContainer from "../../components/mapContainer";
 import ChartDisplay from "../../components/chart";
 import styles from "./styles.module.css";
 import PieChart from "../../components/pieChart";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  const gdp = useSelector((state)=> state.country).gdp
   return (
     <>
       <header>
@@ -15,7 +17,10 @@ const Home = () => {
           <ChartDisplay />
         </div>
       </div>
-      <h2>GDP : {303030} B</h2>
+      <div className={styles.gdp}>
+        <h2>2022 GDP : {gdp? `${gdp.toLocaleString().split('.')[0]} USD`: "Not Available"}</h2>
+      </div>
+      
       <div className={styles.pieContainer}>
         <PieChart />
       </div>

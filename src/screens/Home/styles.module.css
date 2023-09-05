@@ -10,6 +10,18 @@ h1{
     font-weight: 600;
     letter-spacing: 2px;
 }
+.gdp h2{
+  color: #26859b;
+  padding: 8px;
+  border: 3px solid #35b6d0;
+  border-radius: 10px;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom:15px ;
+  text-align: center;
+  background-color: #35b6d041;
+  width: fit-content;
+}
 .upper {
   display: flex;
   justify-content: space-between;

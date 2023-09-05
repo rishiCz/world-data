@@ -4,9 +4,11 @@ import { zoomIn, zoomOut } from "../../utils/functions";
 import Flag from "../flag";
 import styles from "./styles.module.css";
 import { useSelector } from "react-redux";
+import Search from "../search";
 
 const MapContainer = () => {
-  const countryName = useSelector((state)=> state.country).countryData.name.common
+  const countryName = useSelector((state) => state.country).countryData.name
+    .common;
   const mapRef = useRef(null);
   useEffect(() => {
     const preventScrollOnMap = (event) => {
@@ -30,10 +32,12 @@ const MapContainer = () => {
   return (
     <div className={styles.mapFunction}>
       <div className={styles.upper}>
-      <Flag />
-      <label>{countryName}</label>
+        <div className={styles.left}>
+          <Flag />
+          <label>{countryName}</label>
+        </div>
+        <Search />
       </div>
-      
 
       <div
         id="mapContainer"
@@ -42,13 +46,13 @@ const MapContainer = () => {
         ref={mapRef}
       >
         <div className={styles.zoomContainer}>
-        <button onClick={zoomIn} className={styles.zoomButton}>
-          +
-        </button>
-        <button onClick={zoomOut} className={styles.zoomButton}>
-          -
-        </button>
-      </div>
+          <button onClick={zoomIn} className={styles.zoomButton}>
+            +
+          </button>
+          <button onClick={zoomOut} className={styles.zoomButton}>
+            -
+          </button>
+        </div>
         <Map reference={mapRef} />
       </div>
     </div>
