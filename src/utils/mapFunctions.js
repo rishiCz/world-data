@@ -1,17 +1,14 @@
 import { useEffect } from "react";
-// import { useDispatch } from "react-redux";
 import axios from "axios";
 import {
   setActiveCountry,
-  // setHoverCountry,
 } from "../store/slices/countrySlice";
 
-const hoverColor = "#ffffff7f";
-const hoverCancelColor = "#0A2647";
-const hoverStrokeColor = "#ffffff";
-const hoverCancelStrokeColor = "#89add8";
-const hoverStrokeWidth = 0.5;
-const hoverCancelStrokeWidth = 0.2;
+const hoverColor = "#3E3E3EBA";
+const hoverCancelColor = "#353535";
+const hoverStrokeColor = "#464646";
+const hoverCancelStrokeColor = "#464646";
+const hoverCancelStrokeWidth = 1;
 let map = null;
 
 const onDrag = () => {
@@ -84,7 +81,6 @@ const onHover = () => {
       if (country.id === element.target.id) {
         country.style.stroke = hoverStrokeColor;
         country.style.fill = hoverColor;
-        country.style.strokeWidth = `${hoverStrokeWidth / map.style.scale}px`;
       }
     });
     element.target.addEventListener("mouseleave", function (element) {
@@ -130,7 +126,7 @@ const SetMapProperties = (dispatch) => {
     onDrag();
     Onclick(dispatch);
     onHover();
-  }, []);
+  }, [dispatch]);
 };
 const getCca3FromName = async (name) => {
   try {

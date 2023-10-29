@@ -1,12 +1,16 @@
 #allSvg path{
     position: absolute;
     cursor: pointer;
-    stroke: #89add8;
-    stroke-width: 0.2px;
-    fill: #0A2647;
+    stroke: #464646;
+    stroke-width: 1px;
+    fill: #353535;
     transition: all 100ms ease-in-out;
     box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.5);
 }
 #allSvg{
+    /* background: -webkit-linear-gradient(#eee, #333);
+    -webkit-background-clip: path;
+    -webkit-text-fill-color: transparent; */
+    padding-top: 3rem;
     transition: scale 100ms ease-in-out;
 }

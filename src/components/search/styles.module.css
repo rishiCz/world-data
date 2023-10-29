@@ -7,7 +7,7 @@
   
   .searchContainer input {
     outline: none;
-    border: none;
+    border: solid #6e6e6e;
     border-radius: 20px;
     width: 90%;
     padding: 5px 5%;

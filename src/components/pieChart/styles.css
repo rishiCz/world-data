@@ -1,11 +1,4 @@
 
-.pieChart .apexcharts-canvas{
-    background-color: rgb(255, 255, 255);
-    min-height: 200% ;
-    min-width: 100%;
-    display: flex;
-    justify-content: center;
-}
 .apexcharts-tooltip-text-y-value{
     display: none;
     scale: 0;
@@ -13,20 +6,14 @@
 .apexcharts-tooltip-text-y-label{
     content: "";
 }
-.pieChart .apexcharts-canvas > svg{
-}
-.pieChart .apexcharts-graphical{
-}
 .pieChart .apexcharts-legend-series{
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    border: 0.1px solid #d1d1d1;
     background-color: #ffffff;
-    border-radius: 20px;
+    border-radius: 8px;
     padding: 8px;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    transition: all 200ms ease;
+    transition: all 100ms ease;
 }
 .pieChart .apexcharts-legend-series:hover{
     scale: 1.01;

@@ -32,18 +32,20 @@ const PieChart = () => {
 
   return (
     <>
-      <div className={styles.pieHolder}>
+    <div className={styles.outer}>
+    <div className={styles.pieHolder}>
         {isData ?
-          <Chart class="pieChart"
+          <Chart className="pieChart"
           options={data.options}
           series={data.series}
+          width={'100%'}
           type="donut"
-          width="40%"
-          height="500px"
         /> 
       :
       <h1>No Adjacent Country Data For Comparison</h1>}
       </div>
+    </div>
+      
     </>
   );
 };

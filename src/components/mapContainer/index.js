@@ -1,10 +1,11 @@
 import Map from "../../components/map";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { zoomIn, zoomOut } from "../../utils/functions";
 import Flag from "../flag";
 import styles from "./styles.module.css";
 import { useSelector } from "react-redux";
 import Search from "../search";
+import { FaExpand } from "react-icons/fa";
 
 const MapContainer = () => {
   const countryName = useSelector((state) => state.country).countryData.name
@@ -28,9 +29,17 @@ const MapContainer = () => {
     if (event.deltaY < 0) zoomIn();
     else zoomOut();
   };
-
+  const [isExpand, setExpand] = useState(false);
+  const expandMap = () => {
+    setExpand((prev) => !prev);
+  };
+  const style = isExpand
+    ? {
+        flexBasis: "100%",
+      }
+    : {};
   return (
-    <div className={styles.mapFunction}>
+    <div className={styles.mapFunction} style={style}>
       <div className={styles.upper}>
         <div className={styles.left}>
           <Flag />
@@ -42,6 +51,7 @@ const MapContainer = () => {
       <div
         id="mapContainer"
         className={styles.mapContainer}
+        style={{aspectRatio: (isExpand? 2.5 : 'unset')}}
         onWheel={handleScroll}
         ref={mapRef}
       >
@@ -53,6 +63,9 @@ const MapContainer = () => {
             -
           </button>
         </div>
+        <button onClick={expandMap} className={styles.expand}>
+          <FaExpand />
+        </button>
         <Map reference={mapRef} />
       </div>
     </div>

@@ -1,4 +1,11 @@
+.outer{
+    background-color: #eeeeee;
+    padding: 20px;
+}
 .pieHolder{
     text-align: center;
-    color: gray;
+    color: #ffffff;
+    width: 600px;
+    border: solid rgb(216, 216, 216);
+    border-radius: 10px;
 }
