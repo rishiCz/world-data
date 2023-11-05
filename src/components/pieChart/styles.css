@@ -46,3 +46,14 @@
 .pieChart label:nth-child(2){
     white-space: nowrap;
 }
+@media screen and (max-width:1000px) {
+    .apexcharts-svg {
+        display: flex;
+        flex-direction: column;
+    }
+    .apexcharts-svg>g{
+        margin: auto;
+    }
+    
+    
+}

@@ -11,6 +11,7 @@ h1{
     letter-spacing: 2px;
 }
 header{
+  overflow: hidden;
   display: flex;
   justify-content: space-between;
 }
@@ -38,9 +39,10 @@ header{
   font-size: 1.3em;
 }
 .gdp h2{
-  color: #808080;
+  color: #ffffff;
   padding: 8px;
-  border: 3px solid #c1c1c1;
+  border: 3px solid #00000000;
+  background-color: #eb3a49 ;
   border-radius: 10px;
   margin: auto;
   margin-top: 20px;
@@ -65,9 +67,6 @@ header{
 }
 .pieContainer {
   flex-basis: 100%;
-}
-.pieContainer div {
-  margin: auto;
 }
 
 @media screen and (max-width: 800px) {
