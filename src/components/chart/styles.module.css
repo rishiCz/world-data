@@ -1,0 +1,15 @@
+.chartHolder{
+    position: relative;
+    height: 100%;
+}
+
+.loader{
+    backdrop-filter: blur(5px);
+    width: calc(100%) ;
+    height: calc(100%);
+    position: absolute;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

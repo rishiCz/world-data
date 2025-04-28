@@ -2,6 +2,7 @@
     flex-basis: 50%;
     display: block;
     align-self: flex-end;
+    height: 450px;
 }
 .upper{
     display: flex;
@@ -16,6 +17,8 @@
 }
 .left{
     display: flex;
+    padding-left: 20px;
+    gap: 16px;
     align-items: center;
 }
 
@@ -28,13 +31,16 @@
     width: fit-content;
 }
 .zoomButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-top: 10px;
     color: #ffffff;
     background-color: #ff00008f;
     width: 30px;
     height: 30px;
     z-index: 2;
-    font-size: 1.5em;
+    font-size: 1.2em;
     cursor: pointer;
     outline: none;
     border: none;
@@ -45,26 +51,67 @@
     background-color: rgb(0, 0, 0);
 }
 .mapContainer{
+    height: calc(100% - 50px);
     position: relative;
-    aspect-ratio: 1.9;
-    border-radius: 20px;
+    border-radius: 10px;
     overflow: hidden;
-    border: 5px solid #9e9e9e;
-    background-color: #f2f2f2;
+    border: 1px solid #9e9e9e;
+    background-color: #ffffff;
 }
 .expand{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    color: #ffffff;
+    background-color: #ff00008f;
+    width: 30px;
+    height: 30px;
+    z-index: 2;
+    font-size: 1.2em;
     cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    transition: all 100ms ease;
     position: absolute;
     z-index: 2;
     bottom: 10px;
     right: 10px;
-    outline: none;
-    border:none;
-    font-size: 1em;
-    color: #ff00008f;
-    background-color: transparent;
-    transition: all 200ms ease;
 }
 .expand:hover{
-    scale: 1.5;
+    background-color: rgb(0, 0, 0);
+}
+.mouseTipOuter {
+    pointer-events: none;
+    position: absolute;
+    z-index: 500;
+}
+.mouseTip {
+    
+    background-color: #F96A6A;
+    
+    padding: 5px;
+    color: white;
+    border: solid 1px white;
+    border-radius: 8px;
+    font-size: small;
+    /* box-shadow: #434343 5px 5px 5px; */
+    
+}
+.mouseTipTop{
+    width: fit-content;
+    text-overflow: clip;
+    display: flex ;
+    align-items: center;
+    gap: 5px;
+}
+.mouseTipBottom{
+    padding-left: 20px;
+}
+@media screen and (max-width: 1100px) {
+    .mapContainer{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 }

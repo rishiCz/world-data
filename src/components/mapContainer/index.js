@@ -1,45 +1,54 @@
 import Map from "../../components/map";
 import React, { useRef, useEffect, useState } from "react";
-import { zoomIn, zoomOut } from "../../utils/functions";
 import Flag from "../flag";
 import styles from "./styles.module.css";
 import { useSelector } from "react-redux";
 import Search from "../search";
 import { FaExpand } from "react-icons/fa";
+import MouseTip from "./MouseTip";
+import { countryToName } from "../../constants/country";
+import { zoomIn, zoomOut } from "../../utils/mapFunctions";
 
-const MapContainer = () => {
-  const countryName = useSelector((state) => state.country).countryData.name
-    .common;
+const MapContainer = ({style, setExpand}) => {
+  const [hoverCountryCode, setHoverCountryCode] = useState(null)
+  const activeCountry = useSelector((state) => state.country.activeCountry) || ""
+  const countryName = countryToName[activeCountry]
   const mapRef = useRef(null);
+  const toolTipRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+        const rect = mapRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        toolTipRef.current.style.transform = `translate(${x}px, ${y-30}px)`;
+    }
   useEffect(() => {
+    const map = mapRef.current
     const preventScrollOnMap = (event) => {
       if (mapRef.current && mapRef.current.contains(event.target)) {
         event.preventDefault();
       }
     };
-
+    map.addEventListener('mousemove',handleMouseMove)
     window.addEventListener("wheel", preventScrollOnMap, { passive: false });
 
     return () => {
       window.removeEventListener("wheel", preventScrollOnMap);
+      map.removeEventListener('mousemove',handleMouseMove)
     };
   }, []);
 
   const handleScroll = (event) => {
-    if (event.deltaY < 0) zoomIn();
-    else zoomOut();
+    if (event.deltaY < 0) zoomOut();
+    else zoomIn();
   };
-  const [isExpand, setExpand] = useState(false);
+  
   const expandMap = () => {
     setExpand((prev) => !prev);
   };
-  const style = isExpand
-    ? {
-        flexBasis: "100%",
-      }
-    : {};
   return (
     <div className={styles.mapFunction} style={style}>
+
       <div className={styles.upper}>
         <div className={styles.left}>
           <Flag />
@@ -51,22 +60,24 @@ const MapContainer = () => {
       <div
         id="mapContainer"
         className={styles.mapContainer}
-        style={{aspectRatio: (isExpand? 2.5 : 'unset')}}
         onWheel={handleScroll}
         ref={mapRef}
       >
+        <div ref = {toolTipRef} className={styles.mouseTipOuter}>
+          <MouseTip hoverCountryCode={hoverCountryCode}/>
+        </div>
         <div className={styles.zoomContainer}>
-          <button onClick={zoomIn} className={styles.zoomButton}>
+          <button onClick={zoomOut} className={styles.zoomButton}>
             +
           </button>
-          <button onClick={zoomOut} className={styles.zoomButton}>
+          <button onClick={zoomIn} className={styles.zoomButton}>
             -
           </button>
         </div>
         <button onClick={expandMap} className={styles.expand}>
           <FaExpand />
         </button>
-        <Map reference={mapRef} />
+        <Map reference={mapRef} activeCountry={activeCountry} setHoverCountryCode={setHoverCountryCode}/>
       </div>
     </div>
   );

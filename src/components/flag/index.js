@@ -1,14 +1,11 @@
-import styles from "./styles.module.css";
+import ReactCountryFlag from "react-country-flag";
 import { useSelector } from "react-redux";
 
 const Flag = () => {
-  const countryState = useSelector((state) => state.country);
-  const flagsrc = countryState.countryData.flags
-    ? countryState.countryData.flags.png
-    : "";
+  const activeCountry = useSelector((state) => state.country.activeCountry);
   return (
     <>
-      <img className={styles.flagImg} src={flagsrc} />
+      <ReactCountryFlag countryCode={activeCountry} style={{scale:'2'}} svg />
     </>
   );
 };

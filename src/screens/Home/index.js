@@ -3,34 +3,39 @@ import ChartDisplay from "../../components/chart";
 import styles from "./styles.module.css";
 import PieChart from "../../components/pieChart";
 import {FaGithub} from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const Home = () => {
-  const gdp = useSelector((state) => state.country).gdp;
+  const [isExpand, setExpand] = useState(false)
+  const style = isExpand
+  ? {
+    flexBasis: "100%",
+    height:`calc(100vh - ${100}px)`
+  }
+  : {};
   return (
     <>
       <header>
         <h1>World GDP</h1>
-        <a className={styles.gitLink} target="_blank" href="https://github.com/rishiCz/world-data">
+        <a className={styles.gitLink} target="" href="https://github.com/rishiCz/world-data">
           Source
           <FaGithub className={styles.gitIcon}/>
         </a>
       </header>
-      <div className={styles.upper}>
-        <MapContainer />
-        <div className={styles.chartContainer}>
+      <div className={styles.upper} >
+        <MapContainer style={style} setExpand={setExpand}/>
+        <div className={styles.chartContainer} style={style}>
           <ChartDisplay />
         </div>
       </div>
-      <div className={styles.gdp}>
-        <h2>
-          2022 GDP :{" "}
-          {gdp ? `${gdp.toLocaleString().split(".")[0]} USD` : "Not Available"}
-        </h2>
-      </div>
+      
 
-      <div className={styles.pieContainer}>
-        <PieChart />
+      <div className={styles.bottom}>
+       
+          <PieChart/>
+ 
+        
+        
       </div>
     </>
   );

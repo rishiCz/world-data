@@ -1,18 +1,105 @@
-// import React, { useEffect } from 'react';
-// eslint-disable-next-line
+import { useEffect, useRef } from "react";
+import { SetMapProperties, translateX, translateY } from "../../utils/mapFunctions";
 import { useDispatch } from "react-redux";
-import { print } from "../../utils/functions";
-import { SetMapProperty } from "../../utils/functions";
-import {
-  setActiveCountry,
-  // setHoverCountry,
-} from "../../store/slices/countrySlice";
 import "./styles.css";
-const Map = () => {
-  const dispatch = useDispatch();
-  SetMapProperty(dispatch);
+import {
+  setActiveCountry
+} from "../../store/slices/countrySlice";
+import { countryTocca2, countryToName } from "../../constants/country";
+
+const hoverColor = "#3E3E3EBA";
+const hoverCancelColor = "#353535";
+const hoverCancelStrokeWidth = 1;
+
+const Map = ({ activeCountry,setHoverCountryCode }) => {
+  const activeName = countryToName[activeCountry]
+  const mapRef = useRef()
+  const activeCountryRef = useRef();
+  const translateRef = useRef({x:0,y:0})
+
+  const dispatch = useDispatch()
+
+  const forEachCountrySvg = (name, cb) => {
+    mapRef.current.querySelectorAll(`.allPaths`).forEach((country) => {
+      if (country.id === name) {
+        cb(country)
+      }
+    });
+  }
+
+  const handleClick = (event) => {
+    const {x,y} = translateRef.current
+    const scale = mapRef.current.style.scale
+    const diff = Math.max(Math.abs(x-translateX) , Math.abs(y-translateY))
+
+    console.log(diff, x*scale,y*scale," AND ",translateX*scale,translateY*scale)
+    translateRef.current = {x:translateX, y:translateY}
+    if(diff > 2) return
+    event.stopPropagation();
+    if (event.target.className.baseVal === "allPaths") {
+      const country = countryTocca2[event.target.id]
+      dispatch(setActiveCountry(country))
+    }
+  }
+
+  const handleMouseOver = (e) => {
+    if (!e.target.classList.contains('allPaths')){
+      setHoverCountryCode(null)
+      return;
+    } 
+    setHoverCountryCode(countryTocca2[e.target.id])
+
+    if (e.target.id === activeName) {
+      return;
+    }
+    
+    forEachCountrySvg(e.target.id, (country) => {
+      country.style.fill = hoverColor;
+    });
+    e.target.removeEventListener("mouseleave", handleMouseLeave);
+    e.target.addEventListener("mouseleave", handleMouseLeave);
+  };
+
+
+  const handleMouseLeave = (e) => {
+    if (!e.target.classList.contains('allPaths')) return;
+
+    if (e.target.id === activeCountryRef.current) {
+      return;
+    }
+
+    forEachCountrySvg(e.target.id, (country) => {
+
+      if (e.target.id === activeName) return
+      country.style.fill = hoverCancelColor;
+      country.style.strokeWidth = `${hoverCancelStrokeWidth}px`;
+    })
+  }
+  useEffect(() => {
+    SetMapProperties()
+  }, [])
+
+  useEffect(() => {
+    forEachCountrySvg(activeName, (country) => {
+      country.style.stroke = 
+      country.style.fill = '#F96A6A';
+    });
+    forEachCountrySvg(activeCountryRef.current, (country) => {
+      country.style.stroke = '#464646'
+      country.style.fill = hoverCancelColor;
+      country.style.strokeWidth = `${hoverCancelStrokeWidth}px`;
+    })
+    activeCountryRef.current = activeName;
+  }, [activeName])
+
+
+
+
   return (
     <svg
+      ref={mapRef}
+      onClick={handleClick}
+      onMouseOver={handleMouseOver}
       id="allSvg"
       baseProfile="tiny"
       fill="white"
@@ -24,14 +111,11 @@ const Map = () => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
-        <radialGradient id="myGradient" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" style={{ stopColor: "#2F8D54" }} />
-          <stop offset="50%"
-            style={{ stopColor: "#2F8D59"}}
-          />
-          <stop offset="100%"
-            style={{ stopColor: "#2F8D60"}}
-          />
+        
+        <radialGradient id="myRadialGradient" cx="50%" cy="50%" r="50%">
+          
+          <stop offset="0" stopColor="#F96A6A" />
+          <stop offset="100%" stopColor="#F96A6A" />
         </radialGradient>
       </defs>
       <path
@@ -371,7 +455,7 @@ const Map = () => {
       <path
         className="allPaths"
         d="M1141.3 468.2l3.5 5.3 2.6 0.8 1.5-1.1 2.6 0.4 3.1-1.3 1.4 2.7 5.1 4.3-0.3 7.5 2.3 0.9-1.9 2.2-2.1 1.8-2.2 3.3-1.2 3-0.3 5.1-1.3 2.5-0.1 4.8-1.6 1.8-0.2 3.8-0.8 0.5-0.6 3.6 1.4 2.9 0.1 1-1.2 10.3 1.5 3.6-1 2.7 1.8 4.6 3.4 3.5 0.7 3.5 1.6 1.7-0.3 1.1-0.9-0.3-7.7 1.1-1.5 0.8-1.7 4.1 1.2 2.8-1.1 7.6-0.9 6.4 1.5 1.2 3.9 2.5 1.6-1.2 0.2 6.9-4.3 0-2.2-3.5-2-2.8-4.3-0.9-1.2-3.3-3.5 2-4.4-0.9-1.9-2.9-3.5-0.6-2.7 0.1-0.3-2-1.9-0.1-2.6-0.4-3.5 1-2.4-0.2-1.4 0.6 0.4-7.6-1.8-2.4-0.4-4 0.9-3.9-1.1-2.4-0.1-4.1-6.8 0.1 0.5-2.3-2.9 0-0.3 1.1-3.5 0.3-1.5 3.7-0.9 1.6-3.1-0.9-1.8 0.9-3.8 0.5-2.1-3.3-1.3-2.1-1.6-3.9-1.3-4.7-16.7-0.1-2 0.7-1.7-0.1-2.3 0.9-0.8-2 1.4-0.7 0.2-2.8 1-1.6 2-1.4 1.5 0.7 2-2.5 3.1 0.1 0.3 1.8 2.1 1.1 3.4-4 3.3-3.1 1.4-2.1-0.1-5.3 2.5-6.2 2.6-3.3 3.7-3.1 0.7-2 0.1-2.4 0.9-2.2-0.3-3.7 0.7-5.7 1.1-4 1.7-3.4 0.3-3.9 0.5-4.5 2.2-3.2 3-2.1 4.7 2.2 3.6 2.4 4.1 0.6 4.3 1.3 1.6-3.9 0.8-0.5 2.6 0.6 6.3-3.2 2.2 1.4 1.8-0.2 0.9-1.6 2.1-0.5 4.2 0.7 3.7 0.1 1.8-0.7z"
-        id="Democratic Republic of the Congo"
+        id="DR Congo"
       ></path>
       <path
         className="allPaths"

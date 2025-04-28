@@ -4,13 +4,14 @@
 }
 h1{
     color: #000000;
-    font-size: 2.1em;
+    font-size: 1.5em;
     margin : 10px;
     margin-left: 20px;
     font-weight: 600;
     letter-spacing: 2px;
 }
 header{
+  background-color: white;
   overflow: hidden;
   display: flex;
   justify-content: space-between;
@@ -25,15 +26,11 @@ header{
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2em;
+  font-size: 1em;
   background-color: #6cc644;
   border-top-left-radius: 50px ;
   border-bottom-left-radius: 50px;
   transition: all 200ms ease;
-  translate: 50px 0;
-}
-.gitLink:hover{
-  translate: 0;
 }
 .gitIcon{
   font-size: 1.3em;
@@ -56,20 +53,27 @@ header{
   flex-wrap: wrap;
   justify-content: center;
   padding: 10px;
+  gap: 20px;
 }
 .chartContainer {
   border-radius: 10px;
   background-color: #ffffff;
-  margin-left: 2%;
   flex-basis: 48%;
   overflow: hidden;
-  aspect-ratio: 2;
+  height: 450px;
+}
+.bottom{
+  display: flex;
 }
 .pieContainer {
-  flex-basis: 100%;
+  max-width: 50%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1100px) {
   .upper{
     display: unset;
     background-color: #ffffff00;

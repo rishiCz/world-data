@@ -1,49 +1,47 @@
 import { useDispatch } from "react-redux";
-import { getCountryList, setCountryFromName } from "../../utils/mapFunctions";
 import styles from "./styles.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { setActiveCountry } from "../../store/slices/countrySlice";
+import { allCountries, countryTocca2 } from "../../constants/country";
+import { FaSearch } from "react-icons/fa";
 
 const Search = () => {
   const dispatch = useDispatch();
-  let predefinedOptions = [];
-  useEffect(() => {
-    predefinedOptions = getCountryList();
-  });
+  let predefinedOptions = allCountries;
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredOptions, setFilteredOptions] = useState([]);
-  const [showOptions, setShowOptions] = useState(false);
+  const filteredOptions = predefinedOptions.filter((option) =>
+    option.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleInputChange = (e) => {
     const searchTerm = e.target.value;
     setSearchTerm(searchTerm);
-    const filteredOptions = predefinedOptions.filter((option) =>
-      option.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredOptions(filteredOptions);
-    setShowOptions(!!searchTerm);
+
   };
 
   const handleOptionClick = (option) => {
-    setSearchTerm(option);
-    setFilteredOptions([]);
-    setShowOptions(false);
-    setCountryFromName(option,dispatch)
+    setSearchTerm("");
+    dispatch(setActiveCountry(countryTocca2[option]))
   };
 
-  const handleFocus = () =>{
+  const handleFocus = () => {
     setSearchTerm("")
   }
   return (
     <div className={styles.searchContainer}>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={handleInputChange}
-        onFocus={handleFocus}
-      />
-      {showOptions && (
+      <div className={styles.inputContainer}>
+        <input
+          type="text"
+          placeholder="Search Country"
+          value={searchTerm}
+          onChange={handleInputChange}
+          onFocus={handleFocus}
+        />
+        <FaSearch color="#b1b1b1"/>
+      </div>
+
+      {searchTerm !== "" && (
         <div className={styles.optionsContainer}>
           <ul>
             {filteredOptions.map((option, index) => (
